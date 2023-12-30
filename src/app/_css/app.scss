@@ -48,7 +48,8 @@ body {
   font-family: var(--font-jost);
   margin: 0;
   padding: 0;
-  color: var(--color-dark-500);
+  // color: var(--color-dark-500);
+  color: var(--color-white-500);
   display: flex;
   flex-flow: column;
 }
@@ -58,12 +59,14 @@ body {
 }
 
 ::selection {
-  background: var(--color-dark-500);
+  // background: var(--color-dark-500);
+  background: var(--color-white-500);
   color: var(--color-base-800);
 }
 
 ::-moz-selection {
-  background: var(--color-dark-50);
+  // background: var(--color-dark-50);
+  background: var(--color-white-50);
   color: var(--color-base-800);
 }
 
@@ -109,7 +112,8 @@ ol {
 }
 
 a {
-  color: var(--color-dark-500);
+  // color: var(--color-dark-500);
+  color: var(--color-white-500);
 
   &:focus {
     opacity: .8;

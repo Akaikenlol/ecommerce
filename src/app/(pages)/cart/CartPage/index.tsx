@@ -55,52 +55,70 @@ export const CartPage: React.FC<{
               )}
             </div>
           ) : (
-            <div className={classes.items}>
-              <div className={classes.itemsTotal}>
-                {`There ${cart?.items?.length === 1 ? 'is' : 'are'} ${cart?.items?.length} item${
-                  cart?.items?.length === 1 ? '' : 's'
-                } in your cart.`}
-                {!user && (
-                  <Fragment>
-                    {' '}
-                    <Link href={`/login?redirect=%2Fcart`}>Log in</Link>
-                    {` to save your progress.`}
-                  </Fragment>
-                )}
+            <div className={classes.cartWrapper}>
+              <div>
+                {/* CART LIST HEADER */}
+                <div className={classes.header}>
+                  <p>Products</p>
+                  <div className={classes.headerItemDetails}>
+                    <p></p>
+                    <p></p>
+                    <p>Quantity</p>
+                  </div>
+                  <p className={classes.headerSubtotal}>Subtotal</p>
+                </div>
+
+                {/* CART LIST ITEM */}
+                <ul className={classes.itemsList}>
+                  {cart?.items?.map((item, index) => {
+                    if (typeof item.product === 'object') {
+                      const {
+                        quantity,
+                        product,
+                        product: { id, title, meta, stripeProductID },
+                      } = item
+
+                      const isLast = index === (cart?.items?.length || 0) - 1
+
+                      const metaImage = meta?.image
+
+                      return (
+                        <CartItem
+                          product={product}
+                          title={title}
+                          metaImage={metaImage}
+                          qty={quantity}
+                          addItemToCart={addItemToCart}
+                        />
+                      )
+                    }
+                    return null
+                  })}
+                </ul>
               </div>
-              {cart?.items?.map((item, index) => {
-                if (typeof item.product === 'object') {
-                  const {
-                    quantity,
-                    product,
-                    product: { id, title, meta, stripeProductID },
-                  } = item
 
-                  const isLast = index === (cart?.items?.length || 0) - 1
+              <div className={classes.summary}>
+                <div className={classes.row}>
+                  <h6 className={classes.cartTotal}>Summary</h6>
+                </div>
 
-                  const metaImage = meta?.image
+                <div className={classes.row}>
+                  <p className={classes.cartTotal}>Delivery Charge</p>
+                  <p className={classes.cartTotal}>$0</p>
+                </div>
 
-                  return (
-                    // start from 3:11:02
-                    <CartItem
-                      product={product}
-                      title={title}
-                      metaImage={metaImage}
-                      qty={quantity}
-                      addItemToCart={addItemToCart}
-                    />
-                  )
-                }
-                return null
-              })}
-              <HR />
-              <h5 className={classes.cartTotal}>{`Total: ${cartTotal.formatted}`}</h5>
-              <Button
-                className={classes.checkoutButton}
-                href={user ? '/checkout' : '/login?redirect=%2Fcheckout'}
-                label={user ? 'Checkout' : 'Login to checkout'}
-                appearance="primary"
-              />
+                <div className={classes.row}>
+                  <p className={classes.cartTotal}>Grand Total</p>
+                  <p className={classes.cartTotal}>{cartTotal.formatted}</p>
+                </div>
+
+                <Button
+                  className={classes.checkoutButton}
+                  href={user ? '/checkout' : '/login?redirect=%2Fcheckout'}
+                  label={user ? 'Checkout' : 'Login to checkout'}
+                  appearance="primary"
+                />
+              </div>
             </div>
           )}
         </Fragment>
